@@ -1,0 +1,422 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>NovaBank | Banking Management System</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='style.css') }}">
+
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+</head>
+
+<body>
+
+<div class="background-shapes">
+    <div class="shape shape-one"></div>
+    <div class="shape shape-two"></div>
+    <div class="shape shape-three"></div>
+</div>
+
+<header class="navbar glass">
+    <div class="brand">
+        <div class="brand-icon">
+            <i class="fa-solid fa-building-columns"></i>
+        </div>
+
+        <div>
+            <h1>Nova<span>Bank</span></h1>
+            <p>SMART BANKING SYSTEM</p>
+        </div>
+    </div>
+
+    <div class="nav-status">
+        <span class="status-dot"></span>
+        System Online
+    </div>
+</header>
+
+<main class="container">
+
+    <section class="welcome-section">
+        <div>
+            <p class="eyebrow">YOUR DIGITAL BANKING EXPERIENCE</p>
+
+            <h2>Banking made <span>simple.</span></h2>
+
+            <p class="welcome-description">
+                Manage your account, transactions and balance
+                through one simple platform.
+            </p>
+        </div>
+
+        <div class="welcome-icon">
+            <i class="fa-solid fa-wallet"></i>
+        </div>
+    </section>
+
+    {% if not active_panel %}
+
+    <section class="operations-section">
+
+        <div class="section-heading">
+            <div>
+                <h2>Banking Services</h2>
+                <p>Select an operation to continue.</p>
+            </div>
+
+            <span class="service-count">05 SERVICES</span>
+        </div>
+
+        <div class="services-grid">
+
+            <a href="/?panel=create" class="service-card create-card">
+                <div class="card-icon">
+                    <i class="fa-solid fa-user-plus"></i>
+                </div>
+                <h3>Create Account</h3>
+                <p>Register a new bank account.</p>
+                <span class="card-action">
+                    Get Started <i class="fa-solid fa-arrow-right"></i>
+                </span>
+            </a>
+
+            <a href="/?panel=deposit" class="service-card deposit-card">
+                <div class="card-icon">
+                    <i class="fa-solid fa-circle-arrow-down"></i>
+                </div>
+                <h3>Deposit Amount</h3>
+                <p>Add money to your account.</p>
+                <span class="card-action">
+                    Get Started <i class="fa-solid fa-arrow-right"></i>
+                </span>
+            </a>
+
+            <a href="/?panel=withdraw" class="service-card withdraw-card">
+                <div class="card-icon">
+                    <i class="fa-solid fa-circle-arrow-up"></i>
+                </div>
+                <h3>Withdraw Amount</h3>
+                <p>Withdraw money securely.</p>
+                <span class="card-action">
+                    Get Started <i class="fa-solid fa-arrow-right"></i>
+                </span>
+            </a>
+
+            <a href="/?panel=check" class="service-card balance-card">
+                <div class="card-icon">
+                    <i class="fa-solid fa-scale-balanced"></i>
+                </div>
+                <h3>Check Balance</h3>
+                <p>View your available balance.</p>
+                <span class="card-action">
+                    Get Started <i class="fa-solid fa-arrow-right"></i>
+                </span>
+            </a>
+
+            <a href="/?panel=details" class="service-card details-card">
+                <div class="card-icon">
+                    <i class="fa-solid fa-file-invoice-dollar"></i>
+                </div>
+                <h3>Account Details</h3>
+                <p>View account information and mini statement.</p>
+                <span class="card-action">
+                    Get Started <i class="fa-solid fa-arrow-right"></i>
+                </span>
+            </a>
+
+        </div>
+    </section>
+
+    {% endif %}
+
+    {% if active_panel %}
+
+    <section class="form-section">
+
+        <a href="/" class="back-link">
+            <i class="fa-solid fa-arrow-left"></i>
+            Back to Dashboard
+        </a>
+
+        <div class="form-card glass">
+
+            {% if active_panel == "create" %}
+
+            <div class="form-heading">
+                <div class="form-icon">
+                    <i class="fa-solid fa-user-plus"></i>
+                </div>
+                <h2>Create New Account</h2>
+                <p>Enter the customer information below.</p>
+            </div>
+
+            <form method="POST">
+                <input type="hidden" name="action" value="create">
+
+                <label>Customer Name</label>
+                <input type="text" name="customer_name"
+                       placeholder="Enter full name" required>
+
+                <label>Account Number</label>
+                <input type="text" name="account_number"
+                       placeholder="Enter account number" required>
+
+                <label>Initial Deposit Amount</label>
+                <input type="number" name="initial_balance"
+                       placeholder="Enter amount" min="0"
+                       step="0.01" required>
+
+                <button type="submit" class="submit-btn">
+                    Create Account
+                    <i class="fa-solid fa-arrow-right"></i>
+                </button>
+            </form>
+
+            {% elif active_panel == "deposit" %}
+
+            <div class="form-heading">
+                <div class="form-icon">
+                    <i class="fa-solid fa-circle-arrow-down"></i>
+                </div>
+                <h2>Deposit Money</h2>
+                <p>Add money to your bank account.</p>
+            </div>
+
+            <form method="POST">
+                <input type="hidden" name="action" value="deposit">
+
+                <label>Account Number</label>
+                <input type="text" name="account_number"
+                       placeholder="Enter account number" required>
+
+                <label>Deposit Amount</label>
+                <input type="number" name="amount"
+                       placeholder="Enter amount" min="0.01"
+                       step="0.01" required>
+
+                <button type="submit" class="submit-btn">
+                    Deposit Money
+                    <i class="fa-solid fa-arrow-right"></i>
+                </button>
+            </form>
+
+            {% elif active_panel == "withdraw" %}
+
+            <div class="form-heading">
+                <div class="form-icon">
+                    <i class="fa-solid fa-circle-arrow-up"></i>
+                </div>
+                <h2>Withdraw Money</h2>
+                <p>Withdraw money from your bank account.</p>
+            </div>
+
+            <form method="POST">
+                <input type="hidden" name="action" value="withdraw">
+
+                <label>Account Number</label>
+                <input type="text" name="account_number"
+                       placeholder="Enter account number" required>
+
+                <label>Withdrawal Amount</label>
+                <input type="number" name="amount"
+                       placeholder="Enter amount" min="0.01"
+                       step="0.01" required>
+
+                <button type="submit" class="submit-btn">
+                    Withdraw Money
+                    <i class="fa-solid fa-arrow-right"></i>
+                </button>
+            </form>
+
+            {% elif active_panel == "check" %}
+
+            <div class="form-heading">
+                <div class="form-icon">
+                    <i class="fa-solid fa-scale-balanced"></i>
+                </div>
+                <h2>Check Balance</h2>
+                <p>Check your available account balance.</p>
+            </div>
+
+            <form method="POST">
+                <input type="hidden" name="action" value="check">
+
+                <label>Account Number</label>
+                <input type="text" name="account_number"
+                       placeholder="Enter account number" required>
+
+                <button type="submit" class="submit-btn">
+                    Check Balance
+                    <i class="fa-solid fa-arrow-right"></i>
+                </button>
+            </form>
+
+            {% elif active_panel == "details" %}
+
+            <div class="form-heading">
+                <div class="form-icon">
+                    <i class="fa-solid fa-file-invoice-dollar"></i>
+                </div>
+                <h2>Account Details</h2>
+                <p>View your account and transaction history.</p>
+            </div>
+
+            <form method="POST">
+                <input type="hidden" name="action" value="details">
+
+                <label>Account Number</label>
+                <input type="text" name="account_number"
+                       placeholder="Enter account number" required>
+
+                <button type="submit" class="submit-btn">
+                    View Account Details
+                    <i class="fa-solid fa-arrow-right"></i>
+                </button>
+            </form>
+
+            {% endif %}
+
+            <!-- INFORMATION SECTION -->
+
+            {% if message or result %}
+            <div id="info-section" class="info-section" tabindex="-1">
+            {% endif %}
+
+            {% if message %}
+
+            <div class="message-box
+                {% if 'successfully' not in message|lower %}
+                    error-message
+                {% endif %}">
+
+                <i class="fa-solid fa-circle-info"></i>
+                {{ message }}
+
+            </div>
+
+            {% endif %}
+
+            {% if result %}
+
+            <div class="result-card">
+
+                <h3>
+                    <i class="fa-solid fa-circle-check"></i>
+                    Account Information
+                </h3>
+
+                <div class="result-row">
+                    <span>Customer Name</span>
+                    <strong>{{ result.customer_name }}</strong>
+                </div>
+
+                <div class="result-row">
+                    <span>Account Number</span>
+                    <strong>{{ result.account_number }}</strong>
+                </div>
+
+                <div class="balance-display">
+                    <p>Available Balance</p>
+                    <h2>₹ {{ "%.2f"|format(result.balance) }}</h2>
+                </div>
+
+            </div>
+
+                {% if active_panel == "details" %}
+
+                <div class="statement-card">
+
+                    <h3>
+                        <i class="fa-solid fa-clock-rotate-left"></i>
+                        Mini Statement
+                    </h3>
+
+                    <div class="table-wrapper">
+                        <table>
+
+                            <thead>
+                                <tr>
+                                    <th>Date & Time</th>
+                                    <th>Transaction</th>
+                                    <th>Amount</th>
+                                    <th>Balance</th>
+                                </tr>
+                            </thead>
+
+                            <tbody>
+                                {% for transaction in result.transactions|reverse %}
+
+                                <tr>
+                                    <td>{{ transaction.date }}</td>
+                                    <td>{{ transaction.type }}</td>
+                                    <td>₹ {{ "%.2f"|format(transaction.amount) }}</td>
+                                    <td>₹ {{ "%.2f"|format(transaction.balance) }}</td>
+                                </tr>
+
+                                {% else %}
+
+                                <tr>
+                                    <td colspan="4">No transactions available.</td>
+                                </tr>
+
+                                {% endfor %}
+                            </tbody>
+
+                        </table>
+                    </div>
+
+                </div>
+
+                {% endif %}
+
+            {% endif %}
+
+            {% if message or result %}
+            </div>
+            {% endif %}
+
+        </div>
+    </section>
+
+    {% endif %}
+
+</main>
+
+<!-- AUTOMATIC SCROLL TO INFORMATION SECTION -->
+
+{% if message or result %}
+<script>
+    window.addEventListener("load", function () {
+
+        const infoSection = document.getElementById("info-section");
+
+        if (infoSection) {
+            setTimeout(function () {
+
+                infoSection.scrollIntoView({
+                    behavior: "smooth",
+                    block: "center"
+                });
+
+                infoSection.focus({ preventScroll: true });
+
+            }, 150);
+        }
+
+    });
+</script>
+{% endif %}
+
+<footer>
+    <p>© 2026 NovaBank | Bank Account Management System</p>
+    <span>Designed for smarter banking.</span>
+</footer>
+
+</body>
+</html>
